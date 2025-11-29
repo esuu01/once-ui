@@ -1,15 +1,17 @@
 {
   "name": "@once-ui-system/core",
   "version": "1.5.5",
-  "description": "Once UI for Next.js NPM package",
+  "description": "Once UI - A React component library compatible with Next.js, Inertia.js, and Laravel",
   "keywords": [
     "once-ui",
     "react",
     "nextjs",
+    "inertia",
+    "laravel",
     "scss",
     "design system",
     "design framework",
-    "nextjs design system"
+    "react design system"
   ],
   "author": "Once UI",
   "license": "MIT",
@@ -90,11 +92,14 @@
     "recharts": "^2.15.1"
   },
   "peerDependencies": {
-    "next": ">=13.4",
     "react": ">=18",
     "react-dom": ">=18",
-    "sass": "^1.77.6",
-    "sharp": "^0.33.4"
+    "sass": "^1.77.6"
+  },
+  "peerDependenciesMeta": {
+    "sass": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

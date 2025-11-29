@@ -1,10 +1,16 @@
 "use client";
 
-import { BorderStyle, ChartMode, ChartVariant, DataThemeProvider, IconProvider, LayoutProvider, NeutralColor, ScalingSize, Schemes, SolidStyle, SolidType, SurfaceStyle, Theme, ThemeProvider, ToastProvider, TransitionStyle } from "@once-ui-system/core";
+import { BorderStyle, ChartMode, ChartVariant, DataThemeProvider, IconProvider, LayoutProvider, NeutralColor, RouterProvider, ScalingSize, Schemes, SolidStyle, SolidType, SurfaceStyle, Theme, ThemeProvider, ToastProvider, TransitionStyle } from "@once-ui-system/core";
 import { style, dataStyle } from "@/resources/once-ui.config";
 import { iconLibrary } from "@/resources/icons";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
   return (
     <LayoutProvider>
       <ThemeProvider
@@ -34,7 +40,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
           >
           <ToastProvider>
             <IconProvider icons={iconLibrary}>
-              {children}
+              <RouterProvider
+                config={{
+                  Link: Link as any,
+                  Image: Image as any,
+                  push: (url) => router.push(url),
+                  usePathname: () => pathname,
+                }}
+              >
+                {children}
+              </RouterProvider>
             </IconProvider>
           </ToastProvider>
         </DataThemeProvider>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, ReactNode } from "react";
 import { Flex, Text, Icon, Column, Input, Option, Row, Kbd, ArrowNavigation, useArrowNavigationContext } from "../../";
 import { createPortal } from "react-dom";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouterPush } from "../../contexts/RouterProvider";
 import styles from "./Kbar.module.scss";
 
 export interface KbarItem {
@@ -95,7 +95,8 @@ export const KbarContent: React.FC<KbarContentProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+  const routerPush = useRouterPush();
+  const pathname = usePathname();
   const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -184,7 +185,7 @@ export const KbarContent: React.FC<KbarContentProps> = ({
         const originalItem = items.find((item) => item.id === selectedOption.value);
         if (originalItem) {
           if (originalItem.href) {
-            router.push(originalItem.href);
+            routerPush(originalItem.href);
             handleClose();
           } else if (originalItem.perform) {
             originalItem.perform();
@@ -193,7 +194,7 @@ export const KbarContent: React.FC<KbarContentProps> = ({
         }
       }
     },
-    [nonCustomOptions, items, router, handleClose],
+    [nonCustomOptions, items, routerPush, handleClose],
   );
 
   // Handle escape key
@@ -389,7 +390,6 @@ export interface KbarProps {
 
 export const Kbar: React.FC<KbarProps> = ({ items, children, ...rest }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
 
   const handleOpen = () => {
