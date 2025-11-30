@@ -13,7 +13,7 @@
 
   <br/>
 
-  The indie design system for Next.js apps
+  The indie design system for React apps - Compatible with Next.js, Inertia.js, and Laravel
 
   [![npm version](https://img.shields.io/npm/v/@once-ui-system/core.svg)](https://www.npmjs.com/package/@once-ui-system/core)
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE.md)
@@ -33,6 +33,97 @@ Learn how to set up and build with Once UI at [docs.once-ui.com](https://docs.on
 
 ```bash
 npm install @once-ui-system/core
+```
+
+## Framework Support
+
+Once UI is framework-agnostic and works with:
+- **Next.js** (App Router & Pages Router)
+- **Inertia.js + React + Laravel**
+- **Vite + React**
+- Any other React-based framework
+
+### Usage with Next.js
+
+For Next.js projects, configure the RouterProvider with Next.js routing:
+
+```tsx
+// app/providers.tsx
+"use client";
+
+import { RouterProvider } from "@once-ui-system/core";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  return (
+    <RouterProvider
+      config={{
+        Link: Link,
+        Image: Image,
+        push: (url) => router.push(url),
+        usePathname: () => pathname,
+      }}
+    >
+      {children}
+    </RouterProvider>
+  );
+}
+```
+
+### Usage with Inertia.js + Laravel
+
+For Laravel projects using Inertia.js with React:
+
+```tsx
+// resources/js/app.tsx
+import { RouterProvider } from "@once-ui-system/core";
+import { Link, usePage, router } from "@inertiajs/react";
+
+// Create a custom Link wrapper for Inertia
+const InertiaLink = ({ href, children, ...props }) => (
+  <Link href={href} {...props}>
+    {children}
+  </Link>
+);
+
+function App({ children }) {
+  const { url } = usePage();
+
+  return (
+    <RouterProvider
+      config={{
+        Link: InertiaLink,
+        push: (url) => router.visit(url),
+        usePathname: () => url,
+      }}
+    >
+      {children}
+    </RouterProvider>
+  );
+}
+```
+
+### Basic Usage (No Framework)
+
+Without any configuration, Once UI uses standard HTML elements:
+
+```tsx
+import { Button, Flex, Text } from "@once-ui-system/core";
+import "@once-ui-system/core/css/styles.css";
+
+function App() {
+  return (
+    <Flex direction="column" gap="16">
+      <Text variant="heading-strong-l">Hello World</Text>
+      <Button href="/about">Learn More</Button>
+    </Flex>
+  );
+}
 ```
 
 ## Authors

@@ -2,8 +2,8 @@
 
 import React, { CSSProperties, useState, useRef, useEffect, ReactNode } from "react";
 import { Column, Flex, Row, Skeleton } from ".";
-import Image from "next/image";
 import classNames from "classnames";
+import { useImage } from "../contexts/RouterProvider";
 
 export interface MediaProps extends React.ComponentProps<typeof Flex> {
   aspectRatio?: string;
@@ -43,6 +43,7 @@ const Media: React.FC<MediaProps> = ({
 }) => {
   const [isEnlarged, setIsEnlarged] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
+  const Image = useImage();
 
   const handleImageClick = () => {
     if (enlarge) {

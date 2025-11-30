@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Link from "next/link";
 import classNames from "classnames";
 import { SpacingToken } from "../types";
 import { Flex, ContextMenu, Option, Icon, Column, Line } from ".";
 import { useToast } from "../contexts";
+import { useLink } from "../contexts/RouterProvider";
 
 const sizeMap: Record<string, SpacingToken> = {
   xs: "20",
@@ -169,6 +169,8 @@ const Logo: React.FC<LogoProps> = ({
   };
 
   const enableContext = brand && ((brand.copy && (icon || wordmark)) || brand.url);
+
+  const Link = useLink();
 
   const renderLogo = () => {
     if (href) {

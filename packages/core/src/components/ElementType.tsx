@@ -1,6 +1,8 @@
-import Link from "next/link";
+"use client";
+
 import React, { ReactNode, forwardRef } from "react";
 import { Flex } from ".";
+import { useLink } from "../contexts/RouterProvider";
 
 interface ElementTypeProps {
   href?: string;
@@ -17,6 +19,8 @@ const isExternalLink = (url: string) => /^https?:\/\//.test(url);
 
 const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
   ({ href, type, onClick, onLinkClick, children, className, style, ...props }, ref) => {
+    const Link = useLink();
+
     if (href) {
       const isExternal = isExternalLink(href);
       if (isExternal) {
